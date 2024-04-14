@@ -1,0 +1,42 @@
+@startuml
+skinparam actorStyle awesome
+skinparam rectangle {
+  BackgroundColor White
+  BorderColor Black
+}
+skinparam arrow {
+  Color Black
+}
+
+actor EthereumAccount as "Ethereum\nAccount"
+actor SolanaAccount as "Solana\nAccount"
+
+rectangle Contract {
+  frame "Contract" {
+    rectangle "Slot n" as Slot #LightGray
+    rectangle "Function()" as Function
+    Function -down-> Slot : R/W
+  }
+}
+
+EthereumAccount -right-> Function : Call
+
+rectangle "Program" as ProgramFrame {
+  rectangle "Instructions()" as Instructions
+}
+
+' Align DataAccount1 with the Program frame
+rectangle DataAccount1 #LightGray {
+}
+rectangle DataAccount2 #LightGray {
+}
+
+SolanaAccount -right-> Instructions : Invoke
+Instructions -down-> DataAccount1 : R/W
+Instructions -down-> DataAccount2 : R/W
+
+' Additional layout to ensure alignment and spacing
+DataAccount1 -[hidden]- ProgramFrame
+DataAccount2 -[hidden]r- DataAccount1
+
+@enduml
